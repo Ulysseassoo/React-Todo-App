@@ -8,8 +8,6 @@ const process = require("process")
 const app = express()
 app.use(express.json())
 
-app.use("/api/auth", require("./controllers/auth/auth"))
-
 app.use((req, res, next) => {
 	// We only allow the request from the server we are using
 	res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -19,6 +17,7 @@ app.use((req, res, next) => {
 })
 
 // To use controller
+app.use("/api/auth", require("./controllers/auth/auth"))
 
 const PORT = process.env.PORT || 5000
 

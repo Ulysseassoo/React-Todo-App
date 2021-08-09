@@ -7,6 +7,7 @@ const process = require("process")
 const bcrypt = require("bcryptjs")
 
 const User = require("../../models/User")
+const { protect } = require("../../middleware/auth")
 
 // -------------------------------------------------------------------------- FUNCTIONS -------------------------------------------------------------
 const isValid = (email) => {
@@ -28,12 +29,24 @@ const sendToken = (user, statusCode, res) => {
 	res.status(statusCode).json({
 		status: statusCode,
 		token: `Bearer ${token}`,
+		userInfo: {
+			email: user.email,
+			username: user.username,
+		},
 	})
 }
 
 // -------------------------------------------------------------------------- ROUTES -------------------------------------------------------------
 router.post("/register", (req, res) => {
 	const { username, email, password } = req.body
+	if (!username || !email || !password) {
+		res.status(401).send({
+			status: 401,
+			message: "Please provide an email, password and username",
+		})
+		return
+	}
+	console.log(req.body)
 	const salt = bcrypt.genSaltSync(6)
 	let passwordEncrypted = bcrypt.hashSync(password, salt)
 	User.create({
@@ -91,6 +104,14 @@ router.post("/login", async (req, res) => {
 			})
 			return
 		})
+})
+
+router.get("/privatedata", protect, (req, res) => {
+	const { dataValues } = req.user
+	res.status(200).json({
+		status: 200,
+		userInfo: dataValues,
+	})
 })
 
 module.exports = router
