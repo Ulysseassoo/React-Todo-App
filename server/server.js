@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 
 // To use controller
 app.use("/api/auth", require("./controllers/auth/auth"))
+app.use("/api/user", require("./controllers/todo/todo"))
 
 const PORT = process.env.PORT || 5000
 

@@ -6,7 +6,6 @@ const process = require("process")
 exports.protect = async (req, res, next) => {
 	let token
 	const { authorization } = req.headers
-	console.log(authorization)
 
 	// We check the header to see if there is a token existing
 	if (authorization && authorization.startsWith("Bearer")) {

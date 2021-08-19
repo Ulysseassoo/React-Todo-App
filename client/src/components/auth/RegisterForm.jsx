@@ -6,7 +6,7 @@ import { update } from "../../redux/user/userSlice"
 import { FaEye, FaLock, FaUser } from "react-icons/fa"
 import { AiOutlineMail } from "react-icons/ai"
 
-const RegisterForm = () => {
+const RegisterForm = ({ history }) => {
 	const dispatch = useDispatch()
 	const {
 		register,
@@ -56,6 +56,8 @@ const RegisterForm = () => {
 							{...register("username", { required: true, min: 3 })}
 						/>
 					</div>
+					{errors.email && <span className="errors">Email is incorrect</span>}
+
 					<div className="form--group">
 						<p>
 							<AiOutlineMail />
@@ -70,7 +72,8 @@ const RegisterForm = () => {
 							{...register("email", { required: true, min: 5, pattern: /^\S+@\S+$/i })}
 						/>
 					</div>
-					{errors.email && "Email is incorrect"}
+					{errors.password && <span className="errors">Your password is incorrect</span>}
+
 					<div className="form--group">
 						<p>
 							<FaLock />
@@ -88,7 +91,6 @@ const RegisterForm = () => {
 							<FaEye />
 						</span>
 					</div>
-					{errors.password && "Your password is incorrect"}
 					<div className="form--group">
 						<p>
 							<FaLock />
@@ -107,11 +109,6 @@ const RegisterForm = () => {
 					</div>
 
 					<input className="form--btn" type="submit" value="Sign Up" />
-				</div>
-				<div className="form--signin">
-					<p>
-						Already have an account? <a href="#">Sign in</a>.
-					</p>
 				</div>
 			</form>
 		</div>

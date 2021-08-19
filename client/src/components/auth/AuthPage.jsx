@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react"
-import "./registerPage.scss"
 import SignupBackground from "../../assets/img/signupbackground.png"
 import SigninBackground from "../../assets/img/signinbackground.png"
 import LoginForm from "./LoginForm"
 import RegisterForm from "./RegisterForm"
+import "./registerPage.scss"
 const AuthPage = ({ history }) => {
 	const [registerCount, setRegisterCount] = useState(0)
-
-	useEffect(() => {
-		if (localStorage.getItem("authToken")) {
-			history.push("/")
-		}
-	}, [history])
 
 	useEffect(() => {
 		history.push("/register")
@@ -19,6 +13,12 @@ const AuthPage = ({ history }) => {
 			history.push("/login")
 		}
 	}, [registerCount])
+
+	useEffect(() => {
+		if (localStorage.getItem("authToken")) {
+			history.push("/")
+		}
+	}, [history])
 
 	return (
 		<section className={registerCount === 0 ? "container" : "container signup--mode"}>
@@ -48,7 +48,9 @@ const AuthPage = ({ history }) => {
 						</div>
 					)}
 				</div>
-				<div className="signin--signup">{registerCount === 0 ? <RegisterForm /> : <LoginForm />}</div>
+				<div className="signin--signup">
+					{registerCount === 0 ? <RegisterForm history={history} /> : <LoginForm history={history} />}
+				</div>
 			</div>
 		</section>
 	)

@@ -1,0 +1,219 @@
+:root {
+	--menu-color: white;
+}
+
+.container--homepage {
+	animation: fade-motion-in 1s ease-in;
+	display: grid;
+	height: 100%;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 0.5fr 1.5fr 1fr 1fr 1fr;
+	grid-auto-rows: 1fr;
+	gap: 0px 0px;
+	grid-auto-flow: row;
+	grid-template-areas:
+		"navbar navbar navbar navbar"
+		"main main main main"
+		"main main main main"
+		"main main main main"
+		"main main main main";
+	&.active {
+		grid-template-areas:
+			"navbar navbar navbar navbar"
+			"sidebar main main main"
+			"sidebar main main main"
+			"sidebar main main main"
+			"sidebar main main main";
+	}
+}
+
+.sidebar {
+	grid-area: sidebar;
+}
+
+.main--container {
+	grid-area: main;
+	.todos--form {
+		display: flex;
+		justify-content: center;
+		margin: 1rem 1rem 1rem 0;
+		form {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			width: 600px;
+			background-color: #f0f0f0;
+			border-radius: 15px;
+			-webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+			box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+			.form--group {
+				width: 100%;
+				margin: 10px 0;
+				height: 45px;
+				display: grid;
+				grid-template-columns: 15% 65% 15%;
+				padding: 0 0.4rem;
+				position: relative;
+				.form--input {
+					background: none;
+					outline: none;
+					border: none;
+					line-height: 1;
+					font-weight: 600;
+					font-size: 1rem;
+					padding-left: 0.5rem;
+					color: #333;
+					width: 600px;
+				}
+				.form--input::placeholder {
+					color: rgb(24, 24, 24);
+					font-weight: 500;
+				}
+			}
+			.submit--image {
+				position: relative;
+				bottom: -12px;
+				transition: 0.4s ease-in-out;
+				&:hover {
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+	.todos--container {
+		display: flex;
+		padding: 1rem;
+		flex-wrap: wrap;
+		margin: 2rem;
+		.todo--item {
+			flex-basis: 23%;
+			padding: 1rem;
+			margin: 0.5rem 0.5rem;
+			min-height: 145px;
+			position: relative;
+			border-radius: 10px;
+			box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+			transition: all 0.2s;
+			display: grid;
+			grid-auto-rows: 1fr;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr;
+			gap: 10px 0px;
+			grid-template-areas:
+				". . . todo--discard"
+				"todo--title todo--title todo--title todo--title"
+				"todo--hour todo--hour . ."
+				"todo--label todo--label todo--label todo--label";
+			&:hover {
+				box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+				transform: scale(1.01);
+			}
+			.todo--title {
+				grid-area: todo--title;
+			}
+			.todo--discard {
+				grid-area: todo--discard;
+				color: #333;
+				transition: 0.4s ease-in-out;
+				text-align: right;
+				cursor: pointer;
+				&:hover {
+					scale: 1.1;
+					color: rgba(190, 0, 0, 0.836);
+				}
+			}
+			.todo--hour {
+				grid-area: todo--hour;
+			}
+			.todo--label {
+				display: grid;
+				grid-area: todo--label;
+			}
+		}
+	}
+}
+
+.navbar {
+	grid-area: navbar;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem;
+	background-image: var(--bg-gradient);
+	// -webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+	// box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+	.navbar--menu {
+		width: 55px;
+		height: 50px;
+		position: relative;
+		display: flex;
+		align-items: center;
+		padding: 0.3rem;
+		cursor: pointer;
+		&.active {
+			&::before {
+				rotate: 55deg;
+				top: 25px;
+			}
+			&::after {
+				rotate: -55deg;
+				bottom: 20px;
+			}
+			.menu--icon {
+				opacity: 0;
+				transform: translateX(-200%);
+			}
+		}
+		&::before {
+			content: "";
+			width: calc(100% - (0.3rem * 2));
+			height: 4px;
+			top: 8px;
+			position: absolute;
+			background-color: var(--menu-color);
+			border-radius: 5px;
+			transition: 0.4s 0.1s ease-in-out;
+		}
+		&::after {
+			content: "";
+			width: calc(100% - (0.3rem * 2));
+			height: 4px;
+			bottom: 8px;
+			position: absolute;
+			background-color: var(--menu-color);
+			border-radius: 5px;
+			transition: 0.4s 0.1s ease-in-out;
+		}
+		.menu--icon {
+			width: 100%;
+			height: 4px;
+			display: inline-block;
+			background-color: var(--menu-color);
+			border-radius: 5px;
+			transition: 0.4s ease-in-out;
+		}
+	}
+	.title {
+		h1 {
+			font-weight: bold;
+			color: white;
+		}
+	}
+	.user--menu {
+		h2 {
+			font-size: 1.2rem;
+			font-weight: normal;
+			text-transform: capitalize;
+			color: white;
+		}
+	}
+}
+
+@keyframes fade-motion-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
