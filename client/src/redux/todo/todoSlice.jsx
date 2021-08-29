@@ -21,6 +21,14 @@ export const todoSlice = createSlice({
 			state.todoList = state.todoList.filter((item) => item.id !== action.payload)
 			return state
 		},
+		completeTodo: (state, action) => {
+			state.todoList.map((todo) => {
+				if (todo.id === action.payload) {
+					todo.complete = !todo.complete
+				}
+			})
+			return state
+		},
 		loading: (state) => {
 			state.pending = true
 		},
@@ -30,6 +38,6 @@ export const todoSlice = createSlice({
 	},
 })
 
-export const { fill, update, deleteTodo, loading, success } = todoSlice.actions
+export const { fill, update, deleteTodo, completeTodo, loading, success } = todoSlice.actions
 
 export default todoSlice.reducer

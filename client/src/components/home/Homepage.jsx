@@ -6,13 +6,18 @@ import { update as todoUpdate, fill } from "../../redux/todo/todoSlice"
 import jwtDecode from "jwt-decode"
 import "../home/homepage.scss"
 import { useForm } from "react-hook-form"
-// import { FaCheckCircle } from "react-icons/fa"
 import Check from "../../assets/img/check-circle(1).svg"
 import TodoItem from "./TodoItem"
+import { FaSearch } from "react-icons/fa"
+import { BsMoon } from "react-icons/bs"
+import DateContainer from "./DateContainer"
+import Modal from "./Modal"
 
 const Homepage = ({ history }) => {
 	const username = useSelector((state) => state.user.username)
 	const todos = useSelector((state) => state.todos.todoList)
+	const actualTodo = useSelector((state) => state.modal.actualTodo)
+	const openModal = useSelector((state) => state.modal.openModal)
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -59,6 +64,7 @@ const Homepage = ({ history }) => {
 	}, [])
 
 	const [sidebar, setSidebar] = useState(false)
+	const [focused, setFocused] = useState(false)
 	const formInputs = useRef()
 
 	const { register, handleSubmit } = useForm()
@@ -71,41 +77,54 @@ const Homepage = ({ history }) => {
 			})
 			.then((response) => {
 				const { data } = response
-				console.log(data)
 				dispatch(todoUpdate(data.data))
 				formInputs.current[0].value = ""
 				formInputs.current[1].value = ""
 			})
 			.catch((error) => {
-				console.log(error)
+				if (error.response.status === 404 || error.response.status === 401) {
+					localStorage.removeItem("authToken")
+					history.push("/register")
+				}
 			})
 	}
 
 	return (
 		<div className="container--homepage">
+			{openModal && <div className="overlay"></div>}
 			<nav className="navbar">
-				<div
-					className={sidebar ? "navbar--menu active" : "navbar--menu"}
-					onClick={() => setSidebar((prevState) => !prevState)}>
-					<span className="menu--icon"></span>
+				<div className="navbar--left">
+					<div
+						className={sidebar ? "navbar--menu active" : "navbar--menu"}
+						onClick={() => setSidebar((prevState) => !prevState)}>
+						<span className="menu--icon"></span>
+					</div>
+					<div className="title">
+						<h1>React Todo App</h1>
+					</div>
 				</div>
-				<div className="title">
-					<h1>React Todo App</h1>
+				<div className="search--container">
+					<input type="text" className="search--input" />
+					<FaSearch />
 				</div>
-				<div className="user--menu">
-					<h2>{username}</h2>
+				<div className="navbar--toggle">
+					<BsMoon />
 				</div>
 			</nav>
 			<aside className="sidebar"></aside>
 			<main className="main--container">
-				<div className="todos--form">
+				{openModal && <Modal todo={actualTodo} />}
+				<DateContainer username={username} />
+				<div className={focused ? "todos--form active" : "todos--form"}>
 					<form onSubmit={handleSubmit(addTodo)} ref={formInputs}>
 						<div className="form--group">
 							<input
 								type="text"
-								placeholder="Title"
+								placeholder="+ Nouvelle tâche"
 								{...register("name", { required: true, maxLength: 80 })}
 								className="form--input"
+								onFocus={() => setFocused(true)}
+								onBlur={() => setFocused(false)}
 							/>
 						</div>
 						<div className="form--group">
@@ -114,6 +133,8 @@ const Homepage = ({ history }) => {
 								placeholder="Need to a little description :) ?"
 								{...register("description", {})}
 								className="form--input"
+								onFocus={() => setFocused(true)}
+								onBlur={() => setFocused(false)}
 							/>
 						</div>
 
