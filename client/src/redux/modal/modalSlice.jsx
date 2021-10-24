@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
 	actualTodo: {},
 	openModal: false,
+	openEditForm: false,
 }
 
 export const modalSlice = createSlice({
@@ -15,9 +16,12 @@ export const modalSlice = createSlice({
 		showModal: (state, action) => {
 			state.openModal = action.payload
 		},
+		showEditForm: (state, action) => {
+			state.openEditForm = action.payload
+		},
 	},
 })
 
-export const { changeTodo, showModal } = modalSlice.actions
+export const { changeTodo, showModal, showEditForm } = modalSlice.actions
 
 export default modalSlice.reducer

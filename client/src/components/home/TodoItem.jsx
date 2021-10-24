@@ -5,7 +5,7 @@ import { MdRadioButtonUnchecked, MdUpdate } from "react-icons/md"
 import { IoIosCheckmarkCircleOutline } from "react-icons/io"
 import { useDispatch } from "react-redux"
 import { completeTodo, deleteTodo } from "../../redux/todo/todoSlice"
-import { changeTodo, showModal } from "../../redux/modal/modalSlice"
+import { changeTodo, showEditForm, showModal } from "../../redux/modal/modalSlice"
 import { convertDatabaseDate } from "../../utils/convertDatabaseDate"
 
 const TodoItem = ({ todos, history }) => {
@@ -58,20 +58,27 @@ const TodoItem = ({ todos, history }) => {
 						<div
 							className="todo--item"
 							key={todo.id}
-							onClick={() => {
+							onClick={(e) => {
 								dispatch(changeTodo(actualTodo(todo.id)))
 								dispatch(showModal(true))
+								e.stopPropagation()
 							}}>
 							<div className="todo--content">
 								{todo.complete ? (
 									<IoIosCheckmarkCircleOutline
 										className="todo--completed"
-										onClick={() => completeTodoItem(todo.id, todo.complete)}
+										onClick={(e) => {
+											completeTodoItem(todo.id, todo.complete)
+											e.stopPropagation()
+										}}
 									/>
 								) : (
 									<MdRadioButtonUnchecked
 										className="todo--completed"
-										onClick={() => completeTodoItem(todo.id, todo.complete)}
+										onClick={(e) => {
+											completeTodoItem(todo.id, todo.complete)
+											e.stopPropagation()
+										}}
 									/>
 								)}
 								<div className={todo.complete ? "todo--title complete" : "todo--title"}>{todo.name}</div>
@@ -81,16 +88,26 @@ const TodoItem = ({ todos, history }) => {
 								</div>
 							</div>
 							<div className="todo--options">
-								<div className="todo--discard" onClick={() => deleteTodoItem(todo.id)}>
+								<div
+									className="todo--discard"
+									onClick={(e) => {
+										deleteTodoItem(todo.id)
+										e.stopPropagation()
+									}}>
 									<FaTrashAlt />
 								</div>
-								<div className="todo--edit">
+								<div
+									className="todo--edit"
+									onClick={(e) => {
+										dispatch(changeTodo(actualTodo(todo.id)))
+										dispatch(showEditForm(true))
+										e.stopPropagation()
+									}}>
 									<FaEdit />
 								</div>
-								{/* <div className="todo--label">{todo.completed}</div> */}
 							</div>
 						</div>
-				  ))
+				))
 				: " "}
 		</>
 	)

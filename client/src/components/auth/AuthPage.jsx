@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import SignupBackground from "../../assets/img/signupbackground.png"
 import SigninBackground from "../../assets/img/signinbackground.png"
 import LoginForm from "./LoginForm"
 import RegisterForm from "./RegisterForm"
 import "./registerPage.scss"
+import { useSelector, useDispatch } from "react-redux"
+import { changeCount } from "../../redux/user/userSlice"
 const AuthPage = ({ history }) => {
-	const [registerCount, setRegisterCount] = useState(0)
+	const registerCount = useSelector((state) => state.user.registerCount)
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		history.push("/register")
-		if (registerCount === 1) {
+		if (registerCount === true) {
 			history.push("/login")
 		}
 	}, [registerCount])
@@ -21,14 +24,14 @@ const AuthPage = ({ history }) => {
 	}, [history])
 
 	return (
-		<section className={registerCount === 0 ? "container" : "container signup--mode"}>
+		<section className={registerCount === false ? "container" : "container signup--mode"}>
 			<div className="forms--container">
 				<div className="background--circle">
-					{registerCount === 0 ? (
+					{registerCount === false ? (
 						<div className="background--register">
 							<h2>Already have an account ?</h2>
 							<p>Just click on the button below !</p>
-							<button className="btn--sign" onClick={() => setRegisterCount(1)}>
+							<button className="btn--sign" onClick={() => dispatch(changeCount())}>
 								Sign in
 							</button>
 							<div className="background--image">
@@ -39,7 +42,7 @@ const AuthPage = ({ history }) => {
 						<div className="background--register">
 							<h2>You are new here ?</h2>
 							<p>Click below and sign up !</p>
-							<button className="btn--sign" onClick={() => setRegisterCount(0)}>
+							<button className="btn--sign" onClick={() => dispatch(changeCount())}>
 								Sign up
 							</button>
 							<div className="background--image">
@@ -48,9 +51,7 @@ const AuthPage = ({ history }) => {
 						</div>
 					)}
 				</div>
-				<div className="signin--signup">
-					{registerCount === 0 ? <RegisterForm history={history} /> : <LoginForm history={history} />}
-				</div>
+				<div className="signin--signup">{registerCount === false ? <RegisterForm history={history} /> : <LoginForm history={history} />}</div>
 			</div>
 		</section>
 	)

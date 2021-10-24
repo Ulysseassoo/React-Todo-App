@@ -20,7 +20,7 @@ const isValid = (email) => {
 
 const generateSignedToken = (user) => {
 	return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-		expiresIn: process.env.JWT_EXPIRE,
+		expiresIn: process.env.JWT_EXPIRE
 	})
 }
 
@@ -31,8 +31,8 @@ const sendToken = (user, statusCode, res) => {
 		token: `Bearer ${token}`,
 		userInfo: {
 			email: user.email,
-			username: user.username,
-		},
+			username: user.username
+		}
 	})
 }
 
@@ -42,17 +42,16 @@ router.post("/register", (req, res) => {
 	if (!username || !email || !password) {
 		res.status(401).send({
 			status: 401,
-			message: "Please provide an email, password and username",
+			message: "Please provide an email, password and username"
 		})
 		return
 	}
-	console.log(req.body)
 	const salt = bcrypt.genSaltSync(6)
 	let passwordEncrypted = bcrypt.hashSync(password, salt)
 	User.create({
 		username,
 		email: isValid ? email : null,
-		password: passwordEncrypted,
+		password: passwordEncrypted
 	})
 		.then((user) => {
 			sendToken(user, 201, res)
@@ -60,7 +59,7 @@ router.post("/register", (req, res) => {
 		.catch((error) => {
 			res.status(401).send({
 				status: 401,
-				message: error.errors[0].message,
+				message: error.errors[0].message
 			})
 			return
 		})
@@ -74,14 +73,14 @@ router.post("/login", async (req, res) => {
 	}
 	User.findOne({
 		where: {
-			email: email,
-		},
+			email: email
+		}
 	})
 		.then((user) => {
 			if (!user) {
 				res.status(401).send({
 					status: 401,
-					message: "Invalid credentials",
+					message: "Invalid credentials"
 				})
 				return
 			}
@@ -90,7 +89,7 @@ router.post("/login", async (req, res) => {
 			if (!isMatch) {
 				res.status(401).send({
 					status: 401,
-					message: "Invalid credentials",
+					message: "Invalid credentials"
 				})
 				return
 			}
@@ -100,7 +99,7 @@ router.post("/login", async (req, res) => {
 		.catch(() => {
 			res.status(401).send({
 				status: 401,
-				message: "Your credentials might be incorrect",
+				message: "Your credentials might be incorrect"
 			})
 			return
 		})
@@ -110,7 +109,7 @@ router.get("/privatedata", protect, (req, res) => {
 	const { dataValues } = req.user
 	res.status(200).json({
 		status: 200,
-		userInfo: dataValues,
+		userInfo: dataValues
 	})
 })
 

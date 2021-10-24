@@ -25,6 +25,6 @@ export const useDate = () => {
 	return {
 		date,
 		time,
-		phrase,
+		phrase
 	}
 }

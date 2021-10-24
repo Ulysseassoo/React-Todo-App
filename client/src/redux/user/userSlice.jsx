@@ -4,6 +4,7 @@ const initialState = {
 	username: "",
 	email: "",
 	pending: false,
+	registerCount: false
 }
 
 export const userSlice = createSlice({
@@ -20,9 +21,12 @@ export const userSlice = createSlice({
 		success: (state) => {
 			state.pending = false
 		},
-	},
+		changeCount: (state) => {
+			state.registerCount = !state.registerCount
+		}
+	}
 })
 
-export const { update, loading, success } = userSlice.actions
+export const { update, loading, success, changeCount } = userSlice.actions
 
 export default userSlice.reducer

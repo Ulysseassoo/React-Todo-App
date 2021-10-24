@@ -6,7 +6,6 @@ import { convertDatabaseDate } from "../../utils/convertDatabaseDate"
 
 const Modal = ({ todo }) => {
 	const dispatch = useDispatch()
-	console.log(todo)
 	return todo.name ? (
 		<div className="modal">
 			<div className="modal--header">
