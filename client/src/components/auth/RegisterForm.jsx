@@ -11,7 +11,7 @@ const RegisterForm = ({ history }) => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors }
 	} = useForm()
 	const onSubmitRegister = (formData) => {
 		const { password, confirmPassword } = formData
@@ -22,7 +22,7 @@ const RegisterForm = ({ history }) => {
 		const url = "http://localhost:5000/api/auth/register"
 		axios
 			.post(url, formData, {
-				headers: { "Content-type": "application/json" },
+				headers: { "Content-type": "application/json" }
 			})
 			.then((response) => {
 				localStorage.setItem("authToken", response.data.token)
@@ -54,6 +54,7 @@ const RegisterForm = ({ history }) => {
 							autoComplete="on"
 							id="username"
 							{...register("username", { required: true, min: 3 })}
+							data-cy="username"
 						/>
 					</div>
 					{errors.email && <span className="errors">Email is incorrect</span>}
@@ -70,6 +71,7 @@ const RegisterForm = ({ history }) => {
 							id="email"
 							autoComplete="on"
 							{...register("email", { required: true, min: 5, pattern: /^\S+@\S+$/i })}
+							data-cy="email"
 						/>
 					</div>
 					{errors.password && <span className="errors">Your password is incorrect</span>}
@@ -85,6 +87,7 @@ const RegisterForm = ({ history }) => {
 							placeholder="Enter your password"
 							id="password"
 							{...register("password", { required: true, min: 1 })}
+							data-cy="password"
 						/>
 
 						<span>
@@ -102,13 +105,14 @@ const RegisterForm = ({ history }) => {
 							placeholder="Repeat your Password"
 							id="confirmPassword"
 							{...register("confirmPassword", { required: true, min: 1 })}
+							data-cy="confirmpassword"
 						/>
 						<span>
 							<FaEye />
 						</span>
 					</div>
 
-					<input className="form--btn" type="submit" value="Sign Up" />
+					<input className="form--btn" type="submit" value="Sign Up" data-cy="submit" />
 				</div>
 			</form>
 		</div>

@@ -134,6 +134,7 @@ const Homepage = ({ history }) => {
 								className="form--input"
 								onFocus={() => setFocused(true)}
 								onBlur={() => setFocused(false)}
+								data-cy="todotitle"
 							/>
 						</div>
 						<div className="form--group">
@@ -144,13 +145,14 @@ const Homepage = ({ history }) => {
 								className="form--input"
 								onFocus={() => setFocused(true)}
 								onBlur={() => setFocused(false)}
+								data-cy="tododescription"
 							/>
 						</div>
 
-						<input type="image" src={Check} className="submit--image" />
+						<input type="image" src={Check} className="submit--image" data-cy="submit" />
 					</form>
 				</div>
-				<div className="todos--container">
+				<div className="todos--container" data-cy="todos">
 					{filteredTodolist.length > 0 ? <TodoItem todos={filteredTodolist} history={history} /> : <TodoItem todos={todos} history={history} />}
 				</div>
 			</main>

@@ -13,7 +13,7 @@ const EditForm = ({ todo }) => {
 		const token = localStorage.getItem("authToken")
 		axios
 			.put(url, data, {
-				headers: { "Content-type": "application/json", authorization: token },
+				headers: { "Content-type": "application/json", authorization: token }
 			})
 			.then((response) => {
 				const { data } = response
@@ -29,11 +29,11 @@ const EditForm = ({ todo }) => {
 			})
 	}
 	return (
-		<div className="modal">
+		<div className="modal" data-cy="modal">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<input type="text" placeholder={todo.name} {...register("name", { required: true })} />
-				<input type="text" placeholder={todo.description} {...register("description", {})} />
-				<input type="submit" />
+				<input type="text" placeholder={todo.name} {...register("name", { required: true })} data-cy="name" />
+				<input type="text" placeholder={todo.description} {...register("description", {})} data-cy="description" />
+				<input type="submit" data-cy="submit-modify" />
 			</form>
 		</div>
 	)

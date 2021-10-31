@@ -11,13 +11,13 @@ const LoginForm = ({ history }) => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors }
 	} = useForm()
 	const onSubmit = (formData) => {
 		const url = "http://localhost:5000/api/auth/login"
 		axios
 			.post(url, formData, {
-				headers: { "Content-type": "application/json" },
+				headers: { "Content-type": "application/json" }
 			})
 			.then((response) => {
 				console.log("🚀 ~ file: LoginPage.jsx ~ line 26 ~ .then ~ response", response)
@@ -52,6 +52,7 @@ const LoginForm = ({ history }) => {
 							id="email"
 							autoComplete="on"
 							{...register("email", { required: true, min: 5, pattern: /^\S+@\S+$/i })}
+							data-cy="email"
 						/>
 					</div>
 					{errors.password && "Your password is incorrect"}
@@ -67,13 +68,14 @@ const LoginForm = ({ history }) => {
 							placeholder="Enter your password"
 							id="password"
 							{...register("password", { required: true, min: 1 })}
+							data-cy="password"
 						/>
 
 						<span>
 							<FaEye />
 						</span>
 					</div>
-					<input className="form--btn" type="submit" value="Sign In" />
+					<input className="form--btn" type="submit" value="Sign In" data-cy="submit" />
 				</div>
 			</form>
 		</div>

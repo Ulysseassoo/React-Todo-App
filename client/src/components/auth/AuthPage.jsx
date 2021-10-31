@@ -31,7 +31,7 @@ const AuthPage = ({ history }) => {
 						<div className="background--register">
 							<h2>Already have an account ?</h2>
 							<p>Just click on the button below !</p>
-							<button className="btn--sign" onClick={() => dispatch(changeCount())}>
+							<button className="btn--sign" data-cy="changeroute" onClick={() => dispatch(changeCount())}>
 								Sign in
 							</button>
 							<div className="background--image">
@@ -42,7 +42,7 @@ const AuthPage = ({ history }) => {
 						<div className="background--register">
 							<h2>You are new here ?</h2>
 							<p>Click below and sign up !</p>
-							<button className="btn--sign" onClick={() => dispatch(changeCount())}>
+							<button className="btn--sign" data-cy="changeroute" onClick={() => dispatch(changeCount())}>
 								Sign up
 							</button>
 							<div className="background--image">

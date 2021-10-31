@@ -15,7 +15,7 @@ const TodoItem = ({ todos, history }) => {
 		const token = localStorage.getItem("authToken")
 		axios
 			.delete(url, {
-				headers: { "Content-type": "application/json", authorization: token },
+				headers: { "Content-type": "application/json", authorization: token }
 			})
 			.then(() => {
 				dispatch(deleteTodo(id))
@@ -33,7 +33,7 @@ const TodoItem = ({ todos, history }) => {
 		const todoData = JSON.stringify({ complete: !complete })
 		axios
 			.put(url, todoData, {
-				headers: { "Content-type": "application/json", authorization: token },
+				headers: { "Content-type": "application/json", authorization: token }
 			})
 			.then((response) => {
 				const { data } = response
@@ -57,6 +57,7 @@ const TodoItem = ({ todos, history }) => {
 				? todos.map((todo) => (
 						<div
 							className="todo--item"
+							data-cy={`todo-${todo.id}`}
 							key={todo.id}
 							onClick={(e) => {
 								dispatch(changeTodo(actualTodo(todo.id)))
@@ -81,7 +82,9 @@ const TodoItem = ({ todos, history }) => {
 										}}
 									/>
 								)}
-								<div className={todo.complete ? "todo--title complete" : "todo--title"}>{todo.name}</div>
+								<div className={todo.complete ? "todo--title complete" : "todo--title"} data-cy="todo-title">
+									{todo.name}
+								</div>
 								<div className="todo--hour">
 									<MdUpdate />
 									<p>{convertDatabaseDate(todo.updatedAt)}</p>
@@ -107,7 +110,7 @@ const TodoItem = ({ todos, history }) => {
 								</div>
 							</div>
 						</div>
-				))
+				  ))
 				: " "}
 		</>
 	)
